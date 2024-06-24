@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.odoo.school.library.form ()</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="Books Author info">
+                    <group>
+                        <group>
+<!--                            <field name="is_ods_author"/>-->
+                        </group>
+                        <group>
+                            <field name="ods_books_count"/>
+                        </group>
+                    </group>
+                    <field name="ods_book_ids" readonly="1"/>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="replace"/>
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="is_ods_author"/>
+            </xpath>
+
+            <field name="email" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

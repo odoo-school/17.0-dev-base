@@ -1,1 +1,1 @@
-# 17.0-dev-base
+# 17.0 dev-base Odoo School Course 
