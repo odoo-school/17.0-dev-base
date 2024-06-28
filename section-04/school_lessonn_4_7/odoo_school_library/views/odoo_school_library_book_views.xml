@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="odoo_school_library_book_tree" model="ir.ui.view">
+        <field name="name">odoo.school.library.book.tree ()</field>
+        <field name="model">odoo.school.library.book</field>
+        <field name="arch" type="xml">
+            <tree>
+                <header>
+                    <button name="%(odoo_school_library.odoo_school_library_add_reader_wizard_action)d" string="Add readers"
+                            type="action" class="oe_stat_button"/>
+                    <button type="object" string="Example Button" name="show_to_author"/>
+                </header>
+                <field name="name"/>
+                <field name="description" optional="show"/>
+                <field name="company_currency_id" column_invisible="1"/>
+                <field name="monetary_price" optional="show" sum="Total" options="{'currency_field': 'company_currency_id'}"/>
+                <field name="inventory_state" groups="base.group_no_one"/>
+                <field name="res_partner_id"/>
+                <field name="res_partner_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <button name="%(odoo_school_library.odoo_school_library_add_reader_wizard_action)d" string="Add readers"
+                        type="action" class="oe_stat_button"
+                        help="This wizard add possibility to add readers to current book, who are reading this book now"/>
+                <button name="show_to_author" icon="oi-odoo" type="object"/>
+                <groupby name="res_partner_id">
+                    <button name="edit" type="edit" icon="fa-edit" title="Edit"/>
+                </groupby>
+            </tree>
+        </field>
+    </record>
+
+    <record id="odoo_school_library_book_form" model="ir.ui.view">
+        <field name="name">odoo.school.library.book.form ()</field>
+        <field name="model">odoo.school.library.book</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="%(odoo_school_library.odoo_school_library_add_reader_wizard_action)d"
+                            string="Add readers" type="action"
+                            help="This wizard add possibility to add readers to current book, who are reading this book now"/>
+                    <button name="show_to_author" string="Show Author" icon="oi-smile-add" type="object" context="{'book_price': monetary_price}"/>
+                    <field name="inventory_state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" class="oe_inline"/></h1>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="edit" name="edit" icon="fa-edit" string="Button1"/>
+                        <button type="object" name="show_to_author" icon="fa-dollar">
+                            <field name="res_partner_count" widget="statinfo" string="Authors"/>
+                        </button>
+                    </div>
+<!--                    <label for="name" string="Book`s name"/>-->
+<!--                    <field name="name" class="oe_inline"/>-->
+                    <group>
+                        <group>
+                            <field name="description" placeholder="Explanation, what is the book about ..." string="New Book description" help="This field for a short books description"/>
+                            <field name="company_currency_id" invisible="1"/>
+                            <separator/>
+                            <field name="monetary_price" widget="monetary"
+                                   options="{'currency_field': 'company_currency_id'}" invisible="inventory_state!='available'"/>
+                            <field name="active" groups="base.group_no_one"/>
+                        </group>
+                        <group>
+                            <field name="book_cover_image" widget='image' class="oe_avatar m-0"
+                                   options='{"zoom": true, "preview_image":"avatar_256"}'/>
+                            <field name="release_date"/>
+                            <separator/>
+                            <field name="res_partner_id"/>
+                            <field name="partner_country_name"/>
+                            <field name="res_partner_ids" domain="[('is_ods_author', '=', True)]" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </group>
+                        <group>
+                            <field name="start_booking_date"/>
+                            <field name="end_booking_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="html_note_id" string="HTML book note">
+                            <group>
+                                <field name="html_note" options="{'codeview': true}" class="oe-bordered-editor"/>
+                            </group>
+                        </page>
+                        <page name="second_page_example" string="Second page example">
+                        </page>
+                    </notebook>
+                    <div class="o_attachment_preview"/>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="odoo_school_library_book_pivot" model="ir.ui.view">
+        <field name="name">odoo.school.library.book.pivot (odoo_school_library_book)</field>
+        <field name="model">odoo.school.library.book</field>
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <pivot string="Pivot Example" sample="1" disable_linking="1" display_quantity="1">
+                <field name="create_date" interval="month" type="col"/>
+                <field name="name" type="row"/>
+                <field name="monetary_price" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="odoo_school_library_book_graph" model="ir.ui.view">
+        <field name="name">odoo.school.library.book.graph (odoo_school_library_book)</field>
+        <field name="model">odoo.school.library.book</field>
+        <field name="priority">60</field>
+        <field name="arch" type="xml">
+            <graph string="Graph Example" stacked="0">
+                <field name="name"/>
+                <field name="res_partner_id"/>
+                <field name="monetary_price" type="measure" string="Book price for Graph"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="odoo_school_library_book_search" model="ir.ui.view">
+        <field name="name">odoo.school.library.book.search (odoo_school_library_book)</field>
+        <field name="model">odoo.school.library.book</field>
+        <field name="arch" type="xml">
+            <search string="Filters">
+                <field name="name" string="Book`s name"/>
+                <field name="res_partner_id" domain="[('is_ods_author','=',True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="Without Additional Authors" domain="[('res_partner_ids','=',False)]" name="no_addition_author" help="Filters for books without Additional Authors"/>
+                <separator/>
+                <filter string="Price more than 150" domain="[('monetary_price','>',150)]" name="price_more_150" help="Filters books where price over than 150"/>
+                <separator/>
+                <filter name="filter_date" date="release_date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Author" name="partner" domain="[]" context="{'group_by':'res_partner_id'}"/>
+                    <filter string="Creation Date" name="filter_create_date" date="create_date" context="{'group_by': 'create_date:week'}"/>
+                </group>
+
+                <searchpanel>
+                    <field name="company_id" string="Filter by Companies" icon="fa-building"/>
+                    <field name="res_partner_id" string="Filter by Authors" icon="fa-users" select="multi" enable_counters="1" domain="[('is_ods_author','=',True)]"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="odoo_school_library_book_kanban" model="ir.ui.view">
+        <field name="name">odoo.school.library.book.kanban (odoo_school_library_book)</field>
+        <field name="model">odoo.school.library.book</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" default_group_by="inventory_state" default_order="monetary_price,name desc"
+                    records_draggable="False" archivable="False" quick_create_view="odoo_school_library.odoo_school_library_book_form">
+                <header>
+                    <button name="%(odoo_school_library.odoo_school_library_add_reader_wizard_action)d"
+                            string="Add readers" type="action" display="always"/>
+                    <button type="object" name="show_to_author" string="Show Author" display="display"/>
+                </header>
+                <field name="description"/>
+                <progressbar field="inventory_state" colors='{"available": "success", "pending": "warning", "out_of_stock": "danger"}' sum_field="monetary_price"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_content oe_kanban_global_click">
+                            <t t-set="raw_value" t-value="record.description.raw_value" />
+                            <t t-out="raw_value"></t>
+                            <div>
+                                <strong class="o_kanban_record_title"><field name="name"/></strong>
+                            </div>
+                            <div>
+                                <span class="o_kanban_record_subtitle"><field name="partner_country_name"/></span>
+                            </div>
+                            <div>
+<!--                              <field name="description"/>-->
+                              <field name="monetary_price"/>
+                              <field name="res_partner_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="res_partner_id" widget="many2one_avatar_user"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="odoo_school_library_book_calendar" model="ir.ui.view">
+        <field name="name">odoo.school.library.book.calendar (odoo_school_library_book)</field>
+        <field name="model">odoo.school.library.book</field>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <calendar string="Books booking" create="1" quick_create="1" mode="month" scales="day,month,year" create_name_field="description" color="name" date_start="start_booking_date" date_stop="end_booking_date" event_open_popup="True">
+                <field name="res_partner_id" avatar_field="avatar_128"/>
+                <field name="name" filters="1" invisible="1"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_odoo_school_library_book_window" model="ir.actions.act_window">
+        <field name="name">Book</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">odoo.school.library.book</field>
+        <field name="view_mode">tree,form,kanban,calendar,pivot,graph</field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="odoo_school_library_menu_book"
+              action="action_odoo_school_library_book_window"
+              parent="odoo_school_library_menu_catalog"
+              name="Book" sequence="200"/>
+
+
+</odoo>
