@@ -28,6 +28,12 @@
         </field>
     </record>
 
+    <record id="action_odoo_school_website" model="ir.actions.act_url">
+        <field name="name">Website Odoo School</field>
+        <field name="url">https://odoo.school/</field>
+        <field name="target">new</field>
+    </record>
+
     <record id="odoo_school_library_book_form" model="ir.ui.view">
         <field name="name">odoo.school.library.book.form ()</field>
         <field name="model">odoo.school.library.book</field>
@@ -209,12 +215,6 @@
         <field name="view_mode">tree,form,kanban,calendar,pivot,graph</field>
         <field name="context">{}</field>
         <field name="domain">[]</field>
-    </record>
-
-    <record id="action_odoo_school_website" model="ir.actions.act_url">
-        <field name="name">Website Odoo School</field>
-        <field name="url">https://odoo.school/</field>
-        <field name="target">new</field>
     </record>
 
     <record id="action_odoo_school_library_book_available_server" model="ir.actions.server">

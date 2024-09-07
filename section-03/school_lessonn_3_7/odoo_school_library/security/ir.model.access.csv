@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access__odoo_school_library_book__group_user,access__odoo_school_library_book__group_user,model_odoo_school_library_book,base.group_user,1,1,1,1
+
+access__odoo_school_library_add_reader_wizard__group_user,access__odoo_school_library_add_reader_wizard__group_user,model_odoo_school_library_add_reader_wizard,base.group_user,1,1,1,1
+

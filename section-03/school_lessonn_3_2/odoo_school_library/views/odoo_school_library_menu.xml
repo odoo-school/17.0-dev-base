@@ -1,0 +1,14 @@
+<odoo>
+
+  <menuitem id="odoo_school_library_main_menu"
+            web_icon="odoo_school_library,static/description/icon.png"
+            name="library" sequence="300"/>
+
+  <menuitem id="odoo_school_library_menu_catalog"
+            parent="odoo_school_library_main_menu"
+            name="Catalog" sequence="100"/>
+
+  <menuitem id="odoo_school_library_menu_main_settings"
+            parent="odoo_school_library_main_menu"
+            name="Settings" sequence="900"/>
+</odoo>

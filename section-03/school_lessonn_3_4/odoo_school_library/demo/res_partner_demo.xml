@@ -1,0 +1,43 @@
+<odoo>
+
+    <record id="osl_author_demo_1" model="res.partner">
+        <field name="name">Harper Lee</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="osl_author_demo_2" model="res.partner">
+        <field name="name">George Orwell</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="osl_author_demo_3" model="res.partner">
+        <field name="name">J.K. Rowling</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="osl_author_demo_4" model="res.partner">
+        <field name="name">J.D. Salinger</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="osl_author_demo_5" model="res.partner">
+        <field name="name">F. Scott Fitzgerald</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="osl_author_demo_6" model="res.partner">
+        <field name="name">J.R.R. Tolkien</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="osl_author_demo_7" model="res.partner">
+        <field name="name">Jane Austen</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="osl_author_demo_8" model="res.partner">
+        <field name="name">Anne Frank</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+</odoo>

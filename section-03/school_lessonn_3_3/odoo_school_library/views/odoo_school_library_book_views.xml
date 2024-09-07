@@ -1,0 +1,66 @@
+<odoo>
+        <record id="odoo_school_library_book_tree" model="ir.ui.view">
+            <field name="name">odoo.school.library.book.tree ()</field>
+            <field name="model">odoo.school.library.book</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="res_partner_id"/>
+                    <field name="res_partner_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="odoo_school_library_book_form" model="ir.ui.view">
+            <field name="name">odoo.school.library.book.form ()</field>
+            <field name="model">odoo.school.library.book</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header></header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="description"/>
+                                <field name="company_currency_id" invisible="1"/>
+                                <field name="monetary_price" widget="monetary"
+                                       options="{'currency_field': 'company_currency_id'}"/>
+                                <field name="inventory_state" widget="radio"/>
+                            </group>
+                            <group>
+                                <field name="book_cover_image" widget='image' class="oe_avatar m-0"
+                                       options='{"zoom": true, "preview_image":"avatar_256"}'/>
+                                <field name="release_date"/>
+<!--                                <field name="release_datetime"/>-->
+                                <field name="active"/>
+                                <field name="res_partner_id"/>
+                                <field name="partner_country_name"/>
+                                <field name="res_partner_ids"  widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="html_note_id" string="HTML book note">
+                                <group>
+                                    <field name="html_note" options="{'codeview': true}" class="oe-bordered-editor"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_odoo_school_library_book_window" model="ir.actions.act_window">
+            <field name="name">Book</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">odoo.school.library.book</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="odoo_school_library_menu_book"
+                  action="action_odoo_school_library_book_window"
+                  parent="odoo_school_library_menu_catalog"
+                  name="Book" sequence="200"/>
+
+</odoo>
