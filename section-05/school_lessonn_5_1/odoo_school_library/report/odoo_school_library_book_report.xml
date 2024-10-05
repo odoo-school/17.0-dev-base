@@ -1,0 +1,81 @@
+<odoo>
+    <record id="odoo_school_library_book_main_report" model="ir.actions.report">
+        <field name="name">OSL books report</field>
+        <field name="model">odoo.school.library.book</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">odoo_school_library.odoo_school_library_book_title_template</field>
+        <field name="report_file">odoo_school_library.odoo_school_library_book_title_template</field>
+        <!--        <field name="report_name">odoo_school_library.odoo_school_library_book_main_template</field>-->
+        <!--        <field name="report_file">odoo_school_library.odoo_school_library_book_main_template</field>-->
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="model_odoo_school_library_book"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="odoo_school_library_book_title_template" name="osl book title">
+        <t t-call="web.html_container">
+            <!--        <h1>This is a block of HTML</h1>-->
+            <!--        <h2>And this is the subtitle</h2>-->
+            <h1>John Doe</h1>
+            <t>
+                <a href="#">About Me</a>
+                <a href="#">Projects</a>
+                <a href="#">Contact</a>
+            </t>
+
+            <h2>Welcome to My Portfolio!</h2>
+            <p>Hi! I’m John, a passionate web developer. Below are some of my favorite projects that I’ve worked on.</p>
+
+            <div class="projects">
+                <div class="project">
+                    <h3>Project 1</h3>
+                    <p>A cool project about web development.</p>
+                </div>
+                <div class="project">
+                    <h3>Project 2</h3>
+                    <p>An amazing mobile app I created.</p>
+                </div>
+                <div class="project">
+                    <h3>Project 3</h3>
+                    <p>A fun machine learning project.</p>
+                </div>
+            </div>
+
+            <h2>Interact with Me!</h2>
+            <p>Click the button to see a surprise message:</p>
+            <button onclick="showMessage()">Click Me!</button>
+            <p id="message" style="color: green; font-weight: bold;"></p>
+
+            <footer>
+                <p>2024 John Doe. All rights reserved.</p>
+            </footer>
+
+            <script>
+                function showMessage() {
+                document.getElementById('message').textContent = "Hello! Thanks for visiting my portfolio!";
+                }
+            </script>
+
+        </t>
+
+    </template>
+
+
+    <template id="odoo_school_library_book_main_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+            <t t-set="lang" t-value="o.res_partner_id.lang"/>
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <div class="row">
+                    <div name="osl_book_main_block">
+                        <strong>Book name:</strong>
+                        <div t-field="o.name"/>
+                        <div t-field="o.res_partner_id"
+                             t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

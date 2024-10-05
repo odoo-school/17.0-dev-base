@@ -1,0 +1,158 @@
+<odoo>
+    <record id="odoo_school_library_book_paperformat" model="report.paperformat">
+        <field name="name">A4 library book</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">80</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">15</field>
+        <field name="margin_right">15</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">15</field>
+        <field name="dpi">180</field>
+    </record>
+
+    <record id="odoo_school_library_book_main_report" model="ir.actions.report">
+        <field name="name">OSL books report</field>
+        <field name="model">odoo.school.library.book</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">odoo_school_library.odoo_school_library_book_main_template</field>
+        <field name="report_file">odoo_school_library.odoo_school_library_book_main_template</field>
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="model_odoo_school_library_book"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="odoo_school_library.odoo_school_library_book_paperformat"/>
+    </record>
+
+    <record id="odoo_school_library_book_main_report_2" model="ir.actions.report">
+        <field name="name">OSL books report 2</field>
+        <field name="model">odoo.school.library.book</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">odoo_school_library.odoo_school_library_book_main_with_books_template</field>
+        <field name="report_file">odoo_school_library.odoo_school_library_book_main_with_books_template</field>
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="model_odoo_school_library_book"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="odoo_school_library.odoo_school_library_book_paperformat"/>
+    </record>
+
+    <template id="odoo_school_library_book_info_company_template">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img t-attf-src="/logo.png?company={{ o.company_id.id }}"
+                 style="padding: 0px; margin: 0px; height: 48px;"
+                 t-att-alt="o.company_id.name"/>
+            <br/>
+            <t t-if="o.company_id">
+                <h2>
+                    <span t-field="o.company_id.name"/>
+                </h2>
+            </t>
+        </div>
+    </template>
+
+    <template id="odoo_school_library_book_info_template">
+        <div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+            <h1 style="font-size: 24px; margin-bottom: 20px; text-align: center;">Book Information</h1>
+
+            <t t-if="o.name">
+                <div style="margin-bottom: 15px; text-align: center;">
+                    <h2 style="font-size: 20px; font-weight: bold;">
+                        <span t-field="o.name"/>
+                    </h2>
+                </div>
+            </t>
+            <t t-elif="o.res_partner_id">
+                <div style="margin-bottom: 15px; text-align: center;">
+                    <h2 style="font-size: 20px; font-weight: bold;">
+                        <span t-field="o.res_partner_id.name"/>
+                    </h2>
+                </div>
+            </t>
+            <t t-else="">
+                <div style="margin-bottom: 15px; text-align: center; color: red;">
+                    <h2>No book information available. Please add details.</h2>
+                </div>
+            </t>
+
+            <t t-if="o.description">
+                <div style="margin-top: 20px;">
+                    <h3 style="font-size: 18px; margin-bottom: 10px;">Description</h3>
+                    <p style="font-size: 16px; line-height: 1.5;">
+                        <span t-field="o.description"/>
+                    </p>
+                </div>
+            </t>
+
+            <t t-if="o.html_note">
+                <div style="margin-top: 20px;">
+                    <h3 style="font-size: 18px; margin-bottom: 10px;">Additional Notes</h3>
+                    <div t-field="o.html_note" style="font-size: 16px; line-height: 1.5;"/>
+                </div>
+            </t>
+        </div>
+    </template>
+
+    <template id="odoo_school_library_book_authors_other_books_template">
+        <div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+            <h2 style="font-size: 18px; margin-bottom: 10px;">Author`s books:</h2>
+            <table class="table table-condensed" style="font-size: 18px; margin-bottom: 10px;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>State</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="o.res_partner_id.ods_book_ids" t-as="book">
+                        <td><span t-field="book.name"/></td>
+                        <td><span t-field="book.description"/></td>
+                        <td><span t-field="book.monetary_price"/></td>
+                        <td><span t-field="book.inventory_state"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
+    <template id="odoo_school_library_book_main_template">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.res_partner_id.lang"/>
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <div class="row">
+                    <div t-att="{'style':'font-size: 25px; padding: 5px;', 'name':'osl_book_main_block'}">
+                        <strong t-attf-style="color: {{ ('#ff6347' if o.inventory_state == 'out_of_stock' else '#3640b9') }}" >Book name:</strong>
+                        <div t-att="['style', 'font-size: 45px;']" name="template_box">
+                            <t t-call="odoo_school_library.odoo_school_library_book_info_company_template"/>
+                            <t t-call="odoo_school_library.odoo_school_library_book_info_template"/>
+                        </div>
+                        <div t-field="o.res_partner_id"
+                             t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="odoo_school_library_book_main_with_books_template">
+        <div class="container" name="template_box">
+            <h1>Main Template Content</h1>
+            <t t-call="odoo_school_library.odoo_school_library_book_main_template"/>
+        </div>
+    </template>
+
+    <template id="odoo_school_library_book_main_with_books_template_2" inherit_id="odoo_school_library.odoo_school_library_book_main_with_books_template">
+        <xpath expr="//div[@name='template_box']" position="inside">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="odoo_school_library.odoo_school_library_book_authors_other_books_template"/>
+            </t>
+        </xpath>
+    </template>
+</odoo>

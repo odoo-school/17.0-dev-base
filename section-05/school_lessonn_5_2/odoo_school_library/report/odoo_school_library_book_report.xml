@@ -1,0 +1,46 @@
+<odoo>
+    <record id="odoo_school_library_book_main_report" model="ir.actions.report">
+        <field name="name">OSL books report</field>
+        <field name="model">odoo.school.library.book</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">odoo_school_library.odoo_school_library_book_main_template</field>
+        <field name="report_file">odoo_school_library.odoo_school_library_book_main_template</field>
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="model_odoo_school_library_book"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="odoo_school_library_book_main_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+            <t t-set="lang" t-value="o.res_partner_id.lang"/>
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <div class="row">
+                    <div name="osl_book_main_block">
+                        <strong>Book name:</strong>
+                        <div>
+                            <t t-if="o.name">
+                                <h1><div t-field="o.name"/></h1>
+                            </t>
+                            <t t-elif="o.res_partner_id">
+                                <h1><div t-field="o.res_partner_id.name"/></h1>
+                            </t>
+                            <t t-else="">
+                                <h1>This is empty object, pls add info, bro)</h1>
+                            </t>
+                            <t t-if="o.description">
+                                <h2><div t-field="o.description"/></h2>
+                            </t>
+                            <t t-if="o.html_note">
+                                <div t-field="o.html_note"/>
+                            </t>
+                        </div>
+                        <div t-field="o.res_partner_id"
+                             t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

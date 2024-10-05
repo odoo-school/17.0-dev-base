@@ -1,0 +1,34 @@
+<odoo>
+    <record id="odoo_school_library_add_reader_wizard_form" model="ir.ui.view">
+        <field name="name">odoo.school.library.add.reader.wizard.form</field>
+        <field name="model">odoo.school.library.add.reader.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <div class="alert alert-info text-center" role="status">
+                    This wizard add possibility to add readers to current book, who are reading this book now
+                </div>
+                <group>
+                    <group>
+                        <field name="ods_book_id"/>
+                    </group>
+                    <group>
+                        <field name="res_partner_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Add Readers" name="add_reader" type="object" class="oe_highlight" data-hotkey="q"/>
+                    <button string="Save" special="save" data-hotkey="s" confirm="Do you confirm the action?"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="odoo_school_library_add_reader_wizard_action" model="ir.actions.act_window">
+        <field name="name">Add readers</field>
+        <field name="res_model">odoo.school.library.add.reader.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
